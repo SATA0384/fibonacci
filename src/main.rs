@@ -38,6 +38,17 @@ fn main() {
       }
     };
 
+    let mut fibo: [u128; 3] = [0, 1, 0];
+
+    let print_fibo = |fibo: [u128; 3], i| {
+      if flags.is_progression {
+        if flags.print_index {
+          print!("{i}: ");
+        }
+        println!("{}", fibo[i % 3]);
+      }
+    };
+
     let print_fibo_exp = |j| {
       if flags.print_index {
         print!("{j}: ");
@@ -50,20 +61,10 @@ fn main() {
     };
 
     if 186 < idx && !flags.is_progression {
+      // Print in exponential format
       print_fibo_exp(idx);
       return;
     }
-
-    let mut fibo: [u128; 3] = [0, 1, 0];
-
-    let print_fibo = |fibo: [u128; 3], i| {
-      if flags.is_progression {
-        if flags.print_index {
-          print!("{i}: ");
-        }
-        println!("{}", fibo[i % 3]);
-      }
-    };
 
     // Calculate fibonacci
     for i in 0..=1 {
@@ -76,13 +77,8 @@ fn main() {
 
       // Convert u128->f64 to treat lerge number (might happen error(誤差))
       if is_overflowed {
-        if flags.is_progression {
-          for j in i..=idx {
-            print_fibo_exp(j);
-          }
-        } else {
-          // Print in exponential format
-          print_fibo_exp(idx);
+        for j in i..=idx {
+          print_fibo_exp(j);
         }
 
         continue 'EachArg;
