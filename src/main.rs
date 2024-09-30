@@ -32,10 +32,27 @@ fn main() {
     let idx = match idx.trim().parse() {
       Ok(num) => num, // if numeric, shadowing "idx" as usize
       Err(_) => {
+        // if not numeric, print 'NaN' and skip
         println!("NaN");
         continue;
-      } // if not numeric, print 'NaN' and skip
+      }
     };
+
+    let print_fibo_exp = |j| {
+      if flags.print_index {
+        print!("{j}: ");
+      }
+
+      let j = j as i32;
+      let phi = (1.0 + 5.0_f64.sqrt()) / 2.0;
+      let fibo = (phi.powi(j) - (-phi).powi(-j)) / 5.0_f64.sqrt();
+      println!("{:E}", fibo);
+    };
+
+    if 186 < idx && !flags.is_progression {
+      print_fibo_exp(idx);
+      return;
+    }
 
     let mut fibo: [u128; 3] = [0, 1, 0];
 
@@ -59,28 +76,15 @@ fn main() {
 
       // Convert u128->f64 to treat lerge number (might happen error(誤差))
       if is_overflowed {
-        let mut fibo = [fibo[0] as f64, fibo[1] as f64, fibo[2] as f64];
-        let print_fibo = |fibo: [f64; 3], j| {
-          if flags.is_progression {
-            if flags.print_index {
-              print!("{j}: ");
-            }
-            println!("{:E}", fibo[j % 3]);
+        if flags.is_progression {
+          for j in i..=idx {
+            print_fibo_exp(j);
           }
-        };
-
-        for j in i..=idx {
-          fibo[j % 3] = fibo[(j + 1) % 3] + fibo[(j + 2) % 3];
-          print_fibo(fibo, j);
+        } else {
+          // Print in exponential format
+          print_fibo_exp(idx);
         }
 
-        // Print in exponential format
-        if !flags.is_progression {
-          if flags.print_index {
-            print!("{idx}: ");
-          }
-          println!("{:E}", fibo[idx % 3]);
-        }
         continue 'EachArg;
       }
 
