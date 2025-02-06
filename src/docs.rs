@@ -11,10 +11,11 @@ pub(crate) fn print_help() {
   print_usage();
   println!();
   println!("Options:");
-  println!("  --print-index  | -i : Print index.");
+  println!("  --print-index  | -i : Print numbers with index.");
   println!("  --progression  | -p : Print fibonacci progression up to given number.");
-  println!("  --version      | -v : Print version and exit.");
+  println!("  --strict       | -s : Quit immediately when something went wrong.");
   println!("  --help  |  -h  | -? : Print this messages and exit.");
+  println!("  --version      | -v : Print version and exit.");
 }
 
 pub(crate) fn print_version() {
